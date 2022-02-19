@@ -1,6 +1,4 @@
 using Resamplings
 using Test
-
-@testset "Resamplings.jl" begin
-    # Write your tests here.
-end
+include("test-resample.jl");
+include("test-conditional-resample.jl");
