@@ -112,15 +112,32 @@ include("orderings.jl");
 include("common.jl");
 include("constructors.jl");
 
+
+@inline function _check_args_resample(res::Resampling, ind::AbstractVector{<: Integer},
+                                      w::AbstractVector{<: AbstractFloat})
+    n = length(res.ind);
+    @assert n == length(ind) "length of `ind` does not match with number of particles used to construct resampling.";
+    @assert n == length(w) "length of `ind` and `w` must match."
+    nothing;
+end
+
+@inline function _check_args_conditional_resample(res::Resampling, ind::AbstractVector{<: Integer},
+                                                  w::AbstractVector{<: AbstractFloat},
+                                                  k::Integer, i::Integer)
+    _check_args_resample(res, ind, w);
+    n = length(res.ind);
+    @assert 1 <= k <= n "`k` should be between 1 and `length(ind)`."
+    @assert 1 <= i <= n "`i` should be between 1 and `length(ind)`."
+    @assert w[i] > 0.0 "w[i] == 0.0, where i = $i. cannot proceed with conditional resampling";
+    nothing;
+end
+
 ## User facing API for calling resamplings. (main functions of the package)
 function resample!(res::Resampling,
                    ind::AbstractVector{<: Integer},
                    w::AbstractVector{<: AbstractFloat},
                    rng::AbstractRNG = Random.GLOBAL_RNG)
-    n = length(res.ind);
-    @assert n == length(ind) "length of `ind` does not match with number of particles used to construct resampling.";
-    @assert n == length(w) "length of `ind` and `w` must match."
-
+    _check_args_resample(res, ind, w);
     _set_resample_order!(res.o, w);
     _resample!(res, ind, w, rng);
     _randomise!(res, ind, rng);
@@ -132,15 +149,11 @@ function conditional_resample!(res::Resampling,
                                k::Integer,
                                i::Integer,
                                rng::AbstractRNG = Random.GLOBAL_RNG)
-    n = length(res.ind);
-    @assert n == length(ind) "length of `ind` does not match with number of particles used to construct resampling.";
-    @assert n == length(w) "length of `ind` and `w` must match."
-    @assert 1 <= k <= n "`k` should be between 1 and `length(ind)`."
-    @assert 1 <= i <= n "`i` should be between 1 and `length(ind)`."
-    #@assert ind[k] == i "`ind[k] == i` does not hold.";
-
+    _check_args_conditional_resample(res, ind, w, k, i);
     _set_resample_order!(res.o, w);
     _conditional_resample!(res, ind, w, k, i, rng);
 end
+
+
 
 end

@@ -59,6 +59,7 @@ An `AssertionError` is raised if either of these conditions does not hold.
 
 * (_checked_) $i, k \in \{1:N\}$. An `AssertionError` is raised if either of these does not hold.
 
+Additionally, `conditional_resample!` assumes (and checks) that `w[i]` is strictly positive.
 Attempting to call `conditional_resample!` for resamplings not implementing conditional resampling raises a `MethodError`.
 The call `list_conditional_resamplings()` may be used to print constructors for resamplings that implement conditional resampling (see also below).
 The function `has_conditional` can be called on a Resampling object to check whether it can be used for conditional resampling.

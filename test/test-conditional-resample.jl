@@ -84,7 +84,12 @@ end
     @test_throws AssertionError conditional_resample!(res, ind, w, N + 1, N + 1)
     @test_throws AssertionError conditional_resample!(res, ind, w, -1, -1)
 
-    #@test_throws AssertionError conditional_resample!(res, ind, w, 3, 3);
+    N = 16;
+    ind = zeros(Int, N);
+    w = rand(N); w .= w ./ sum(w);
+    i = 4;
+    w[i] = 0.0;
+    @test_throws AssertionError conditional_resample!(res, ind, w, 1, i);
 end
 
 
