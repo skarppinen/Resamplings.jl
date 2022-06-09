@@ -4,8 +4,9 @@ Resamplings.jl is a Julia package implementing resampling algorithms intended to
 The package aims to provide reasonably fast and easy to use functionality for resampling within performance-critical particle
 filtering code.
 The implementations of the resamplings are based on 
-[[Chopin, Singh, Soto and Vihola; 2022]](https://arxiv.org/abs/2203.10037) and 
-[[Karppinen, Singh and Vihola; 2022]](https://arxiv.org/abs/2205.13898).
+[[Chopin, Singh, Soto and Vihola; 2022]][chopin-singh-soto-vihola] and 
+[[Karppinen, Singh and Vihola; 2022]][karppinen-singh-vihola] and
+references therein.
 
 Currently, the package provides the following resampling algorithms:
 
@@ -19,9 +20,7 @@ Currently, the package provides the following resampling algorithms:
 
 * residual
 
-* SSS
-
-* SSP
+* Srinivasan sampling process (SSP)
 
 The behaviour of each resampling may additionally be altered with additional options (see "Constructing Resampling objects" below).
 
@@ -97,8 +96,6 @@ Resamplings.jl also provides the following aliases to refer to each resampling:
 
 * `ResidualResampling === Resampling{:residual}`
 
-* `SSSResampling === Resampling{:sss}`
-
 * `SSPResampling === Resampling{:ssp}`
 
 That is, for example, to construct an object for systematic resampling, the constructor `SystematicResampling(N)`
@@ -134,6 +131,11 @@ The default values produced depend on the resampling being constructed.
 ensures that the output object can implement conditional resampling.
 If values for `randomisation` and `order` are passed such that this can not be guaranteed, an `ArgumentError` is thrown.
 
+## Further notes
+
+* Resampling.jl also features a so-called single-even systematic resampling (SSS), which is included for research purposes (type `SSSResampling`). The SSS resampling may be used when the weights are nearly constant, otherwise it falls back to systematic resampling 
+(cf. [[Chopin, Singh, Soto and Vihola; 2022]][chopin-singh-soto-vihola], Remark 18).
+
 ## Authors
 
 * Santeri Karppinen (skarppinen@iki.fi)
@@ -145,3 +147,6 @@ University of Jyväskylä, Finland, Department of Mathematics and Statistics
 ## License
 
 MIT
+
+[chopin-singh-soto-vihola]: https://arxiv.org/abs/2203.10037
+[karppinen-singh-vihola]: https://arxiv.org/abs/2205.13898 "[Karppinen, Singh and Vihola; 2022]" 
