@@ -3,6 +3,9 @@
 Resamplings.jl is a Julia package implementing resampling algorithms intended to be used with (conditional) particle filters.
 The package aims to provide reasonably fast and easy to use functionality for resampling within performance-critical particle
 filtering code.
+The implementations of the resamplings are based on 
+[[Chopin, Singh, Soto and Vihola; 2022]](https://arxiv.org/abs/2203.10037) and 
+[[Karppinen, Singh and Vihola; 2022]](https://arxiv.org/abs/2205.13898).
 
 Currently, the package provides the following resampling algorithms:
 
@@ -27,6 +30,15 @@ $A^{(1:N)}$ given (normalised, i.e summing to unity) weights $w^{(1:N)}$.
 Multinomial, systematic, killing and SSS resamplings also support _conditional resampling_
 that draws indices $A^{(-k)} \mid A^k = i$ with (normalised) weights $w^{(1:N)}$,
 where $A^{(-k)}$ stands for the indices $A^{(1:N)}$ excluding the $k$th.
+
+## Installation
+
+To install Resamplings.jl, just run the following commands in the Julia REPL:
+
+```
+import Pkg
+Pkg.add(url = "https://github.com/skarppinen/Resamplings.jl.git")
+```
 
 ## API
 
